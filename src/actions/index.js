@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {FETCH_POSTS,CREATE_POST }from '../type';
+import {FETCH_POSTS,CREATE_POST,FETCH_POST,DELETE_POST}from '../type';
 
 const ROOT_URL ='http://reduxblog.herokuapp.com/api';
 const API_KEY = '?key=KOKORIKO12345';
@@ -21,3 +21,21 @@ export function createPost(values,callback){
     }
 }
 
+export function fetchPost(id) {
+    const request = axios.get(`${ROOT_URL}/posts/${id}${API_KEY}`);
+
+    return {
+        type:FETCH_POST,
+        payload: request
+    }
+}
+
+export function deletePost(id, callback) {
+    const request = axios.delete(`${ROOT_URL}/posts/${id}${API_KEY}`)
+        .then(() => callback());
+
+    return {
+        type: DELETE_POST,
+        payload: id
+    }
+}
